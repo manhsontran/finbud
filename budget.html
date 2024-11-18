@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Management</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a class="navbar-brand" href="#"><i class="fas fa-chart-bar"></i> FinBud Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="expense.html">Expenses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="budget.html">Budgets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="filter.html">Filter</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="login.html">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Add Budget Form -->
+        <div class="container mt-4">
+            <div class="card shadow">
+                <div class="card-header text-white bg-primary">Add Budget</div>
+                <div class="card-body">
+                    <form @submit.prevent="addBudget">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount:</label>
+                            <input type="number" v-model="form.amount" class="form-control" id="amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category:</label>
+                            <select v-model="form.category_id" class="form-select" id="category" required>
+                                <option v-for="category in categories" :key="category.category_id" :value="category.category_id">
+                                    {{ category.category_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Start Date:</label>
+                            <input type="date" v-model="form.start_date" class="form-control" id="start_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">End Date:</label>
+                            <input type="date" v-model="form.end_date" class="form-control" id="end_date" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Budget</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Budgets Table -->
+            <div class="card shadow mt-4">
+                <div class="card-header text-white text-center bg-primary">Budgets</div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped mb-0">
+                            <thead>
+                                <tr class=" text-center table-light">
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" v-for="budget in budgets" :key="budget.budget_id">
+                                    <td>${{ budget.amount ? Number(budget.amount).toFixed(2) : '0.00' }}</td>
+                                    <td>{{ budget.category_name }}</td>
+                                    <td>{{ budget.start_date }}</td>
+                                    <td>{{ budget.end_date }}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm me-2 shadow-sm" @click="editBudget(budget)">Edit</button>
+                                        <button class="btn btn-danger btn-sm shadow-sm" @click="deleteBudget(budget.budget_id)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr v-if="budgets.length === 0">
+                                    <td colspan="5" class="text-center">No budget records found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Modal for Editing Budget -->
+            <div class="modal fade" id="editBudgetModal" tabindex="-1" aria-labelledby="editBudgetModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editBudgetModalLabel">Edit Budget</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="updateBudget">
+                                <div class="mb-3">
+                                    <label for="editAmount" class="form-label">Amount:</label>
+                                    <input type="number" v-model="form.amount" class="form-control" id="editAmount" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editCategory" class="form-label">Category:</label>
+                                    <select v-model="form.category_id" class="form-select" id="editCategory" required>
+                                        <option v-for="category in categories" :value="category.category_id" :key="category.category_id">
+                                            {{ category.category_name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editStartDate" class="form-label">Start Date:</label>
+                                    <input type="date" v-model="form.start_date" class="form-control" id="editStartDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editEndDate" class="form-label">End Date:</label>
+                                    <input type="date" v-model="form.end_date" class="form-control" id="editEndDate" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3"></script>
+    
+    <!-- Bootstrap Bundle JS (bao gồm cả Popper.js) -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    <!-- Budget.js -->
+    <script src="assets/js/budget.js"></script>
+</body>
+</html>

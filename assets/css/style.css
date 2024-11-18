@@ -1,0 +1,167 @@
+body {
+    background-color: #f4faff; 
+    color: #333; 
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding-bottom: 100px; 
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #ffffff; 
+    border-bottom: 1px solid #e0e0e0; 
+    
+}
+
+.navbar-nav .nav-link {
+    color: #007bff; 
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0056b3; 
+}
+
+.navbar-brand {
+    margin-left: 40px;
+}
+
+#nav-link {
+    margin-right: 40px;
+}
+
+.navbar-center {
+    display: flex;
+    justify-content: center; 
+    width: 85%; 
+}
+
+.navbar-center .nav-item {
+    margin: 0 15px; 
+}
+
+/* Main Card */
+.main-card {
+    background-color: #ffffff; 
+    color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 50px;
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1); 
+    transition: transform 0.3s;
+}
+
+.main-card:hover {
+    transform: scale(1.02);
+}
+
+/* Feature Cards Layout */
+.feature-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.feature-container .card {
+    background-color: #f8f9fa; 
+    color: #007bff;
+    border: none;
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1 1 30%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 123, 255, 0.15);
+}
+
+.feature-container .card h5 {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+.card .card-text, .card-title {
+    text-align: center;
+}
+
+
+/* Button Styling */
+.btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+    .feature-container .card {
+        flex: 1 1 100%;
+    }
+}
+
+/* Thêm khoảng cách giữa hai nút */
+.btn-sm {
+    padding: 0.3rem 0.6rem; /* Điều chỉnh kích thước */
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #fff;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.2);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.2);
+}
+
+/* Khoảng cách giữa các nút */
+.me-2 {
+    margin-right: 0.5rem; /* Thêm khoảng cách giữa hai nút */
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen mờ */
+    backdrop-filter: blur(2px); /* Hiệu ứng mờ */
+    z-index: 1040; /* Đảm bảo lớp phủ nằm dưới modal */
+}
+/* Căn chữ sang bên phải trong menu */
+.nav-item .nav-link {
+    text-align: center; /* Căn chữ sang bên phải */
+    display: block; /* Đảm bảo toàn bộ mục menu được hiển thị đầy đủ */
+}
+
+
+
+
+
